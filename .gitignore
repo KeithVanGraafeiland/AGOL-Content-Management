@@ -133,3 +133,5 @@ email_credentials.py
 PML_Credentials.py
 EarthData_Credentials.py
 AGOL_Credentials.py
+credentials.py
+*credentials.py
