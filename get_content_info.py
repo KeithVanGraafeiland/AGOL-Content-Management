@@ -8,12 +8,12 @@ import pandas as pd
 import os
 
 
-# URL = 'https://esrioceans.maps.arcgis.com/home'
-URL = 'https://noaa.maps.arcgis.com/home'
+URL = 'https://esri.maps.arcgis.com/home'
+# URL = 'https://noaa.maps.arcgis.com/home'
 gis = GIS(url=URL, username=AGOLusername, password=AGOLpassword)
 me = gis.users.me
 ROOT = r'C:\temp\GitHub List Services'
-excel_report = ROOT + '//' + 'NOAA_user_report.xlsx'
+excel_report = ROOT + '//' + 'esri_oceans_report.xlsx'
 me
 
 # add_sheet is used to create sheet.
@@ -57,7 +57,7 @@ df_folder = pd.DataFrame(folder_list)
 # search and list all feature layers in my contents
 #user_item = open(r"C:\temp\GitHub List Services\user_items.csv", 'w', encoding='UTF8')
 #writer = csv.writer(user_item)
-search_result = gis.content.search(query='owner:'+ AGOLusername, item_type="Feature Layer",sort_field="numViews" ,sort_order="desc", max_items = 100)
+search_result = gis.content.search(query='owner:'+ AGOLusername, item_type="Feature Layer",sort_field="numViews" ,sort_order="desc", max_items = 1000)
 #for item in search_result:
     #display(item)
     #last_udpated = time.localtime(item.modified / 1000)
@@ -66,6 +66,17 @@ search_result = gis.content.search(query='owner:'+ AGOLusername, item_type="Feat
     #writer.writerow(f"{item.itemid} {item.title:<40} {time.asctime(last_udpated)} {item.numViews:<40} {item.type:25} {item.tags} {item.owner}")
 #user_item.close()
 df_item = pd.DataFrame(search_result)
+
+search_result_image = gis.content.search(query='owner:'+ AGOLusername, sort_field="numViews" ,sort_order="desc", max_items = 1000)
+#for item in search_result:
+    #display(item)
+    #last_udpated = time.localtime(item.modified / 1000)
+    #print(f"{item.itemid} {item.title:<40} {time.asctime(last_udpated)} {item.numViews:<40} {item.type:25} {item.tags} {item.owner}")
+    #print(item)
+    #writer.writerow(f"{item.itemid} {item.title:<40} {time.asctime(last_udpated)} {item.numViews:<40} {item.type:25} {item.tags} {item.owner}")
+#user_item.close()
+df_imageitem = pd.DataFrame(search_result_image)
+
 tagList_list =[]
 
 for tag in search_result:
@@ -93,5 +104,6 @@ with pd.ExcelWriter(excel_report) as writer:
     df_user.to_excel(writer, sheet_name='User Info')
     df_group.to_excel(writer, sheet_name='Groups')
     df_folder.to_excel(writer, sheet_name='Folders')
-    df_item.to_excel(writer, sheet_name='Top 100 Items')
+    df_item.to_excel(writer, sheet_name='Top 1000 Feature Layers')
+    df_imageitem.to_excel(writer, sheet_name='Top 1000 Raster Layers')
     df_tags.to_excel(writer, sheet_name='Tags')
