@@ -9,17 +9,14 @@ conn = psycopg2.connect(
     user="postgres",
     password="postgres",
     host="localhost",
-    port="5433"
+    port="5432"
 )
 
 # Create a cursor object
 cur = conn.cursor()
 
 # SQL command to create a new database
-create_db_command = sql.SQL("CREATE DATABASE {dbname} OWNER {owner}").format(
-    dbname=sql.Identifier('oceans'),
-    owner=sql.Identifier('SDE')
-)
+create_db_command = sql.SQL("CREATE DATABASE {dbname} OWNER {owner}").format(dbname=sql.Identifier('OCIS'),owner=sql.Identifier('SDE'))
 
 # Execute the SQL command
 cur.execute(create_db_command)
