@@ -14,7 +14,7 @@ gis = GIS(url=URL, username=AGOLusername, password=AGOLpassword)
 me = gis.users.me
 csv_report = 'esri_oceans_report.csv'
 
-search_result_image = gis.content.search(query='owner:'+ AGOLusername, sort_field="numViews" ,sort_order="desc", max_items = 1000)
+search_result_image = gis.content.search(query='owner:'+ AGOLusername , sort_field="numViews" ,sort_order="desc", max_items = 1000)
 #for item in search_result:
     #display(item)
     #last_udpated = time.localtime(item.modified / 1000)
